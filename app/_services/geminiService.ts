@@ -1,7 +1,9 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { ReadingResult, ReadingType, SelectedCard, UserInfo } from "../types";
+import { AI_MODEL } from "../model";
 
 const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY });
+const model = AI_MODEL;
 
 export async function getTarotReading(
     selectedCards: SelectedCard[],
@@ -51,7 +53,7 @@ export async function getTarotReading(
 
     try {
         const response = await ai.models.generateContent({
-            model: "gemini-3-flash-preview",
+            model: model,
             contents: prompt,
             config: {
                 responseMimeType: "application/json",
