@@ -4,6 +4,7 @@ import { ReadingType, SelectedCard, ReadingResult, UserInfo } from './types';
 import { TAROT_DECK } from './constants';
 import { getTarotReading } from './_services/geminiService';
 import TarotCardView from './_components/TarotCardView';
+import DonationModal from './_components/DonationModal';
 
 const LOADING_MESSAGES = [
   "Đang kết nối với các vì sao...",
@@ -24,6 +25,16 @@ const Home: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMsgIdx, setLoadingMsgIdx] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const [showDonationModal, setShowDonationModal] = useState(false);
+  const [isButtonGlowing, setIsButtonGlowing] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowDonationModal(true);
+    }, 300000); // 5 phút
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Cycle loading messages
   useEffect(() => {
@@ -163,6 +174,15 @@ const Home: React.FC = () => {
           <span className="mystic-font text-lg font-bold tracking-widest text-amber-500">MYSTIC AI</span>
         </div>
         <button onClick={() => setStep('landing')} className="text-xs uppercase tracking-widest text-amber-200/50 hover:text-amber-400">Trang chủ</button>
+        <button
+          onClick={() => setShowDonationModal(true)}
+          className={`text-xs uppercase tracking-widest transition-all duration-300 ${isButtonGlowing
+            ? 'text-amber-300 scale-110'
+            : 'text-amber-200/50 hover:text-amber-400'
+            }`}
+        >
+          🧧 Lì xì
+        </button>
       </header>
 
       <main className="flex-1 container mx-auto px-4 py-6 z-10 flex flex-col items-center">
@@ -354,6 +374,11 @@ const Home: React.FC = () => {
           100% { width: 95%; opacity: 0.8; }
         }
       `}</style>
+      <DonationModal
+        intervalSeconds={10}
+        open={showDonationModal}
+        onClose={() => setShowDonationModal(false)}
+      />
     </div>
   );
 };
