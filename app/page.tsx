@@ -31,7 +31,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setShowDonationModal(true);
-    }, 60 * 1000); // 1 phút
+    }, 30 * 1000); // 1 phút
 
     return () => clearInterval(interval);
   }, []);
@@ -189,7 +189,7 @@ const Home: React.FC = () => {
 
         {step === 'landing' && (
           <div className="text-center max-w-4xl animate-fade-in py-10">
-            <h1 className="text-4xl md:text-7xl font-bold mb-6 text-amber-500 tracking-tighter italic">Vận Mệnh 2025</h1>
+            <h1 className="text-4xl md:text-7xl font-bold mb-6 text-amber-500 tracking-tighter italic">Vận Mệnh 2026</h1>
             <p className="text-base md:text-xl mb-10 text-amber-200/70 font-light max-w-2xl mx-auto">
               Khám phá bản đồ cuộc đời thông qua trí tuệ nhân tạo và năng lượng vũ trụ.
             </p>
