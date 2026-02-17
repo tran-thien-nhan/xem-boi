@@ -332,7 +332,7 @@ const Home: React.FC = () => {
                   {readingResult.sections.map((sec, idx) => (
                     <div key={idx} className="bg-slate-950/40 p-6 md:p-8 rounded-[2rem] border border-amber-900/20 group hover:border-amber-500/40 transition-all duration-300">
                       <div className="flex items-center gap-4 mb-4">
-                        <span className="text-3xl group-hover:scale-110 transition-transform">{sec.icon}</span>
+                        {/* <span className="text-3xl group-hover:scale-110 transition-transform">{sec.icon}</span> */}
                         <h4 className="text-amber-400 font-bold uppercase tracking-widest text-sm">{sec.title}</h4>
                       </div>
                       <p className="text-amber-100/80 text-base leading-relaxed font-light">{sec.content}</p>
@@ -369,7 +369,7 @@ const Home: React.FC = () => {
       </main>
 
       <footer className="p-10 text-center text-amber-500/10 text-[9px] md:text-[11px] tracking-[0.4em] font-medium uppercase mt-auto">
-        Mystic Tarot AI &copy; 2025 • Trí Tuệ Nhân Tạo & Tâm Linh Huyền Bí
+        Mystic Tarot AI &copy; 2026 • Trí Tuệ Nhân Tạo & Tâm Linh Huyền Bí
       </footer>
 
       <style>{`
