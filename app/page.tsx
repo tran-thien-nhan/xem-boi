@@ -31,7 +31,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setShowDonationModal(true);
-    }, 300000); // 5 phút
+    }, 60 * 1000); // 1 phút
 
     return () => clearInterval(interval);
   }, []);
