@@ -31,7 +31,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setShowDonationModal(true);
-    }, 30 * 1000); // 1 phút
+    }, 30 * 1000); // 30 giây
 
     return () => clearInterval(interval);
   }, []);
@@ -55,7 +55,8 @@ const Home: React.FC = () => {
     setReadingType(type);
     setSelectedCards([]);
     setLoadingMsgIdx(0);
-    if (type === ReadingType.NEW_YEAR || type === ReadingType.NUMEROLOGY) {
+    // Các loại cần nhập thông tin cá nhân
+    if (type === ReadingType.NEW_YEAR || type === ReadingType.NUMEROLOGY || type === ReadingType.HOROSCOPE) {
       setStep('personalInfo');
     } else {
       setStep('question');
@@ -75,6 +76,7 @@ const Home: React.FC = () => {
 
     try {
       let picked: SelectedCard[] = [];
+      // Chỉ chọn bài cho các loại có dùng Tarot
       if (readingType === ReadingType.NEW_YEAR) {
         const shuffled = [...TAROT_DECK].sort(() => 0.5 - Math.random());
         picked = shuffled.slice(0, 3).map((card) => ({
@@ -135,7 +137,7 @@ const Home: React.FC = () => {
   };
 
   const requiredCount = readingType === ReadingType.SINGLE ? 1 : 3;
-  const isNoCardsInUI = readingType === ReadingType.NEW_YEAR || readingType === ReadingType.NUMEROLOGY;
+  const isNoCardsInUI = readingType === ReadingType.NEW_YEAR || readingType === ReadingType.NUMEROLOGY || readingType === ReadingType.HOROSCOPE;
 
   return (
     <div className="min-h-screen text-amber-100 flex flex-col relative overflow-x-hidden bg-slate-950">
@@ -194,6 +196,7 @@ const Home: React.FC = () => {
               Khám phá bản đồ cuộc đời thông qua trí tuệ nhân tạo và năng lượng vũ trụ.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-2xl mx-auto">
+              <button onClick={() => startReading(ReadingType.HOROSCOPE)} className="p-5 bg-purple-800 hover:bg-purple-700 text-white font-bold rounded-2xl border border-amber-500/50 shadow-lg transition-transform hover:scale-105">🌟 TỬ VI HÀNG NGÀY (AI)</button>
               <button onClick={() => startReading(ReadingType.NEW_YEAR)} className="p-5 bg-red-800 hover:bg-red-700 text-white font-bold rounded-2xl border border-amber-500/50 shadow-lg transition-transform hover:scale-105">🧧 BÓI ĐẦU NĂM (AI)</button>
               <button onClick={() => startReading(ReadingType.NUMEROLOGY)} className="p-5 bg-indigo-800 hover:bg-indigo-700 text-white font-bold rounded-2xl border border-amber-500/50 shadow-lg transition-transform hover:scale-105">🔢 THẦN SỐ HỌC (AI)</button>
               <button onClick={() => startReading(ReadingType.SINGLE)} className="p-5 bg-amber-700 hover:bg-amber-600 text-slate-950 font-bold rounded-2xl shadow-lg transition-transform hover:scale-105">🔮 BỐC ĐẠI 1 LÁ</button>
@@ -205,7 +208,9 @@ const Home: React.FC = () => {
         {(step === 'personalInfo') && (
           <div className="w-full max-w-lg animate-zoom-in pt-6">
             <div className="bg-slate-900/60 backdrop-blur-md border border-amber-500/30 p-6 md:p-10 rounded-[2rem] shadow-2xl">
-              <h2 className="text-xl md:text-2xl font-bold mb-6 text-center mystic-font text-amber-500 uppercase tracking-widest">Khởi Tâm Nhập Liệu</h2>
+              <h2 className="text-xl md:text-2xl font-bold mb-6 text-center mystic-font text-amber-500 uppercase tracking-widest">
+                {readingType === ReadingType.HOROSCOPE ? 'Nhập Thông Tin Xem Tử Vi' : 'Khởi Tâm Nhập Liệu'}
+              </h2>
               <form onSubmit={handlePersonalInfoSubmit} className="space-y-5">
                 <div>
                   <label className="block text-[10px] font-bold text-amber-500/70 mb-2 uppercase tracking-[0.2em]">Họ và tên</label>
@@ -222,7 +227,9 @@ const Home: React.FC = () => {
                   </div>
                 </div>
                 {error && <p className="text-red-400 text-xs text-center">{error}</p>}
-                <button type="submit" className="w-full py-4 bg-red-700 hover:bg-red-600 text-white font-bold rounded-xl transition-all shadow-xl uppercase tracking-widest text-sm">Xem Kết Quả AI</button>
+                <button type="submit" className="w-full py-4 bg-purple-700 hover:bg-purple-600 text-white font-bold rounded-xl transition-all shadow-xl uppercase tracking-widest text-sm">
+                  {readingType === ReadingType.HOROSCOPE ? 'Xem Tử Vi' : 'Xem Kết Quả AI'}
+                </button>
               </form>
             </div>
           </div>
@@ -299,7 +306,9 @@ const Home: React.FC = () => {
 
             <div className="bg-slate-900/50 border border-amber-500/20 p-6 md:p-12 rounded-[2.5rem] shadow-2xl relative mt-8">
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-red-800 text-white px-8 py-2.5 rounded-full font-bold text-[10px] md:text-xs uppercase tracking-[0.3em] border border-amber-500 shadow-xl">
-                {readingType === ReadingType.NEW_YEAR ? 'Vận Hạn 2025' : (readingType === ReadingType.NUMEROLOGY ? 'Thần Số Học' : 'Thông Điệp')}
+                {readingType === ReadingType.NEW_YEAR ? 'Vận Hạn 2025' :
+                  readingType === ReadingType.NUMEROLOGY ? 'Thần Số Học' :
+                    readingType === ReadingType.HOROSCOPE ? 'Tử Vi Hàng Ngày' : 'Thông Điệp'}
               </div>
 
               {readingResult.mysticQuote && (

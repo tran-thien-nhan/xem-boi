@@ -1,4 +1,3 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 import { ReadingResult, ReadingType, SelectedCard, UserInfo } from "../types";
 
@@ -12,6 +11,7 @@ export async function getTarotReading(
 ): Promise<ReadingResult> {
     const isNewYear = readingType === ReadingType.NEW_YEAR;
     const isNumerology = readingType === ReadingType.NUMEROLOGY;
+    const isHoroscope = readingType === ReadingType.HOROSCOPE;
 
     let personalContext = "";
     if (userInfo) {
@@ -25,7 +25,7 @@ export async function getTarotReading(
 
     if (isNewYear) {
         prompt = `Bạn là bậc thầy Chiêm tinh 2025. ${personalContext} ${hiddenEnergy}
-      Nhiệm vụ: Luận vận hạn 2025 súc tích, sâu sắc. 
+      Nhiệm vụ: Luận vận hạn 2026 súc tích, sâu sắc. 
       Yêu cầu: 
       - Không nhắc chữ "Tarot". Dùng "năng lượng bản mệnh".
       - 4 phần 'sections': Gia Đạo (🏠), Sự Nghiệp (💼), Tài Lộc (💰), Sức Khỏe (🌿).
@@ -35,6 +35,13 @@ export async function getTarotReading(
         prompt = `Chuyên gia Thần số học Pythagoras. ${personalContext}
       Nhiệm vụ: Giải mã 3 chỉ số (Chủ đạo, Linh hồn, Sứ mệnh).
       - 'sections': Tính cách (👤), Sự nghiệp (🚀), Tình duyên (💖).
+      - Trả về JSON.`;
+    } else if (isHoroscope) {
+        prompt = `Bạn là chuyên gia Tử Vi phương Đông. ${personalContext}
+      Nhiệm vụ: Xem tử vi hàng ngày dựa trên ngày sinh.
+      - 'sections': Sự nghiệp/Công việc (💼), Tài chính (💰), Tình cảm/Gia đình (💖), Sức khỏe (🌿).
+      - Mỗi phần có nội dung ngắn gọn, sâu sắc.
+      - 'mysticQuote': 1 câu châm ngôn về vận mệnh.
       - Trả về JSON.`;
     } else {
         let cardsDescription = selectedCards.map((sc, idx) => `Lá ${idx + 1}: ${sc.card.name} (${sc.isReversed ? "Nghịch" : "Thuận"})`).join(", ");

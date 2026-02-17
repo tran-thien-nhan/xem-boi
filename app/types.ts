@@ -3,7 +3,8 @@ export enum ReadingType {
     SINGLE = 'SINGLE',
     THREE_CARD = 'THREE_CARD',
     NEW_YEAR = 'NEW_YEAR',
-    NUMEROLOGY = 'NUMEROLOGY'
+    NUMEROLOGY = 'NUMEROLOGY',
+    HOROSCOPE = 'HOROSCOPE' // Thêm loại mới
 }
 
 export interface UserInfo {
